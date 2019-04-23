@@ -38,22 +38,6 @@ const ccp = JSON.parse(ccpJSON);
 const financeCoID = 'easymoney@easymoneyinc.com';
 const svc = require('./Z2B_Services');
 
-/**
- * itemTable are used by the server to reduce load time requests
- * for member secrets and item information
- */
-let itemTable = new Array();
-
-/**
- * autoLoad reads the memberList.json file from the Startup folder and adds members,
- * executes the identity process, and then loads orders
- *
- * @param {express.req} req - the inbound request object from the client
- * @param {express.res} res - the outbound response object for communicating back to client
- * @param {express.next} next - an express service to enable post processing prior to responding to the client
- * saves a table of members and a table of items
- * @function
- */
 exports.autoLoad = async function autoLoad(req, res, next) {
 
     console.log('autoload');
