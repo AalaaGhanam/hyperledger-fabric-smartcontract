@@ -1,7 +1,7 @@
 {
     "name": "patentcontract",
     "version": "0.0.1",
-    "description": "patentContract",
+    "description": "patent smart contract",
     "main": "index.js",
     "engines": {
         "node": ">=8",
@@ -11,7 +11,7 @@
         "start": "fabric-chaincode-node start"
     },
     "engineStrict": true,
-    "author": "Raheel Zubairy",
+    "author": "Aalaa Hesham",
     "license": "Apache-2.0",
     "dependencies": {
         "fabric-contract-api": "~1.4.0",

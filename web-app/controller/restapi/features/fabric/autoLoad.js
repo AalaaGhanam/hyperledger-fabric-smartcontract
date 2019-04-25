@@ -1,24 +1,3 @@
-/*
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
- /**
- * This file is used to automatically populate the network with Order assets and members
- * The opening section loads node modules required for this set of nodejs services
- * to work. This module also uses services created specifically for this tutorial, 
- * in the Z2B_Services.js.
- */
-
 'use strict';
 
 const fs = require('fs');
@@ -34,9 +13,6 @@ const wallet = new FileSystemWallet(walletDir);
 const ccpPath = path.resolve(__dirname, 'connection.json');
 const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
 const ccp = JSON.parse(ccpJSON);
-
-const financeCoID = 'easymoney@easymoneyinc.com';
-const svc = require('./Z2B_Services');
 
 exports.autoLoad = async function autoLoad(req, res, next) {
 
@@ -70,12 +46,7 @@ exports.autoLoad = async function autoLoad(req, res, next) {
 
         for (let member of startupFile.members) {
 
-            console.log('\nmember.id: ' + member.id);
-            console.log('member.type: ' + member.type);
-            console.log('member.companyName: ' + member.companyName);
-
-            var transaction = 'Register' + member.type;
-            console.log('transaction: ' + transaction);            
+            var transaction = 'Register' + member.type;         
 
             for (let owner of owners) { 
                 if (owner == member.id) {
@@ -94,15 +65,10 @@ exports.autoLoad = async function autoLoad(req, res, next) {
             }
             const response = await contract.submitTransaction(transaction, member.id, member.companyName);
             console.log('transaction response: ')
-            console.log(JSON.parse(response.toString()));  
-                                            
-            console.log('Next');                
-
+            console.log(JSON.parse(response.toString()));
         } 
 
         let allPatents = new Array();
-
-        console.log('Get all patents'); 
         for (let owner of owners) { 
             const ownerResponse = await contract.evaluateTransaction('GetState', owner);
             var _ownerjsn = JSON.parse(JSON.parse(ownerResponse.toString()));       
@@ -114,14 +80,6 @@ exports.autoLoad = async function autoLoad(req, res, next) {
 
         for (let patent of startupFile.patents) {
 
-            console.log('\npatent.number: ' + patent.patentNumber);
-            console.log('patent.industry: ' + patent.industry);
-            console.log('patent.ownerId: ' + patent.ownerId);
-            console.log('patent.details: ' + patent.details);
-            console.log('patent.verifierId: ' + patent.verifierId);
-            console.log('patent.publisherId: ' + patent.publisherId);
-       
-
             for (let patentNo of allPatents) { 
                 if (patentNo == patent.patentNumber) {
                     res.send({'error': 'patent already exists'});
@@ -131,14 +89,7 @@ exports.autoLoad = async function autoLoad(req, res, next) {
             const createPatentResponse = await contract.submitTransaction('CreatePatent', patent.ownerId, patent.verifierId, patent.patentNumber, patent.industry, patent.priorArt, patent.details );
             console.log('createPatentResponse: ')
             console.log(JSON.parse(createPatentResponse.toString()));
-
-            console.log('Next');
-                      
         }
-        
-        // Disconnect from the gateway
-        console.log('Disconnect from Fabric gateway.');
-        console.log('AutoLoad Complete');
         await gateway.disconnect();
         res.send({'result': 'Success'});
 
