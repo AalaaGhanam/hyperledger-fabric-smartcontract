@@ -1,6 +1,6 @@
 # hyperledger-fabric-smartcontract 
 
-* packaged smart contract using the [IBM Blockchain Platform Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=IBMBlockchain.ibm-blockchain-platform).
+* package smart contract using the [IBM Blockchain Platform Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=IBMBlockchain.ibm-blockchain-platform).
 * install and instantiate the smart contract.
 * run client sdk by navigating into web-app 
   * npm install
