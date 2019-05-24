@@ -11,7 +11,6 @@ const bodyParser = require('body-parser');
 const cfenv = require('cfenv');
 
 const cookieParser = require('cookie-parser');
-
 const sessionSecret = {};
 const appEnv = cfenv.getAppEnv();
 const app = express();
